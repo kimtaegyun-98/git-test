@@ -2,63 +2,46 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
-
 public class Kiosk {
 
+    private List<Menu> menu;   //
+    Scanner scanner = new Scanner(System.in);
 
-
-        Scanner scanner = new Scanner(System.in);
-        List<MenuItem> menuItem = new ArrayList<>();
-
-    public Kiosk(List<MenuItem> menuItem) {
-        this.menuItem = menuItem;
+    Kiosk (List<Menu> menu){this.menu=menu;
     }
 
-        void start () {
+    void start ()  {// main에 사용할 메서드
+        System.out.println("[ 메인 메뉴]");
 
-           for(MenuItem a:menuItem )
-               System.out.println(a);
-            System.out.println("0. 종료       | 종료");
+        for (Menu printMenu : menu) {
+            System.out.println(printMenu.getCategory());
+        }
+        System.out.println("0. 종료       | 종료");
+        System.out.println("메뉴를 선택해주세요  ");
 
-
-            System.out.println("주문하실 햄버거 번호를 입력해주세요 ");
-
-
-            while (true) {
-
-                int number = scanner.nextInt();// 주문할 햄버거 번호 입력 받기
-
-
-                switch (number) {
-                    case 1:
-                        System.out.println("| w 3500 | " + "불고기버거 메뉴를 선택하셨습니다");
-                        break;
-                    case 2:
-                        System.out.println("| w 5500 | " + "새우버거 메뉴를 선택하셨습니다");
-                        break;
-
-                    case 3:
-                        System.out.println("| w 5000 | " + "치킨버거 메뉴를 선택하셨습니다");
-                        break;
-
-                    case 4:
-                        System.out.println("| w 4000 | " + "치즈버거 메뉴를 선택하셨습니다");
-                        break;
-
-                    default:
-                        throw new IllegalArgumentException("잘못된 숫자 입력입니다");
-                }
-                if (number == 0) {
-                    System.out.println("키오스크를 종료합니다");
-                    return;
-                }
-
+        while (true) {
+          int number;
+            // TODO 오류 예외처리 필요
+            try {
+                number = Integer.parseInt(scanner.nextLine()); // 문자열 입력 방지
+            } catch (NumberFormatException e) {
+                System.out.println(" 숫자를 입력해주세요!");
+                continue;
+            }
+            // TODO 인덱스 검사
+            if (number < 0 || number > menu.size()) {
+                System.out.println("올바른 메뉴 번호를 입력해주세요!");
+                continue;
+            }
+            Menu selecMenu = menu.get(number-1);
+            selecMenu.showMenuItems();
+            if (number == 0) {
+                System.out.println("키오스크를 종료합니다");
+                return;
             }
         }
-
     }
+}
 
 
 
